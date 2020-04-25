@@ -1,0 +1,29 @@
+Objective:
+
+    create matrix 
+    shouls support meathods
+
+    initialize 
+    using given rows columns given
+
+    should have meathod to update element at given perticular index
+
+    create a meathod to add scaler value to matrix
+
+   multiply
+
+   print
+
+   transpose of the matrix
+
+
+Objective:
+
+    print 1-N with step value using for in range, while and for loops
+
+Objective:
+
+    given perfect squared number from 1 to 100 
+
+    should create sqrtxsqrt(n) matrix having 1-n elements devided in sqrt  of n rows in range from 1 to N
+
