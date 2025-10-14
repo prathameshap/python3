@@ -1,18 +1,15 @@
-name: Super Linter for ALL Branches
+name: Code Quality Check
 
 on:
   push:
-    branches:
-      - '**'  # Triggers on push to any branch
+    branches: [ main, develop ]
   pull_request:
-    branches:
-      - '**' # Triggers on pull request to any branch
+    branches: [ main, develop ]
   workflow_dispatch:
 
-
-jobs:    
-  super-linter:
-    name: Lint Code Base
+jobs:
+  lint:
+    name: Lint Changed Files
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -24,9 +21,29 @@ jobs:
           VALIDATE_ALL_CODEBASE: false
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DEFAULT_BRANCH: main
-          #LINTER_RULES_PATH: .github/linters/.super-linter.yml
-          FILTER_REGEX_EXCLUDE: '^(docs|vendor|third_party|node_modules|.github|.vscode|.idea|.venv|env|.env|__pycache__)/.*$'
-          FILTER_REGEX_INCLUDE: '.*\.(py|yml|yaml|json|md)$'
-          PYTHON_VERSION: '3.8'
-          ACTIONS_RUNNER_DEBUG: true
-          ACTIONS_STEP_DEBUG: true
+          # Configure file patterns for your language
+          FILTER_REGEX_INCLUDE: '.*\.(py|js|ts|java|cpp|c|cs|go|rs|php|rb|swift|kt)$'
+          FILTER_REGEX_EXCLUDE: '^(docs|vendor|third_party|node_modules|.github|.vscode|.idea|.venv|env|.env|__pycache__|build|dist|target)/.*$'
+          # Enable language-specific linters (uncomment as needed)
+          # Python
+          VALIDATE_PYTHON_FLAKE8: true
+          VALIDATE_PYTHON_PYLINT: true
+          # JavaScript/TypeScript
+          # VALIDATE_JAVASCRIPT_ES: true
+          # VALIDATE_TYPESCRIPT_ES: true
+          # Java
+          # VALIDATE_JAVA_CHECKSTYLE: true
+          # C/C++
+          # VALIDATE_CPP_CLANG: true
+          # Go
+          # VALIDATE_GO_GOLANGCI_LINT: true
+          # Rust
+          # VALIDATE_RUST_CLIPPY: true
+          # PHP
+          # VALIDATE_PHP_BUILTIN: true
+          # Ruby
+          # VALIDATE_RUBY_RUBOCOP: true
+          # Swift
+          # VALIDATE_SWIFT_SWIFTLINT: true
+          # Kotlin
+          # VALIDATE_KOTLIN_KTLINT: true

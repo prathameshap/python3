@@ -16,7 +16,7 @@ class Matrix:
         
         numargs = len(args)
 
-                if numargs < 1:
+        if numargs < 1:
             raise TypeError(f'Epected at least one argument, got {numargs}')
         elif numargs == 1:
             print(f'Created square matrix {numargs}x{numarags}')

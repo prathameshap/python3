@@ -4,7 +4,7 @@ import math
 
 class FindFibonacci:
 
-    def __int__(self):
+    def __init__(self):
         self.val = False
 
     def isPerfectSquare(self, num:int)->bool:
@@ -20,7 +20,7 @@ class FindFibonacci:
 
         for i in range(n):
             if (self.isFibonacci(i) == True) and (self.isFibonacci(n-i) == True):
-                    self.val = True
+                self.val = True
                     
         return self.val
 
