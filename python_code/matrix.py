@@ -41,7 +41,7 @@ class Matrix:
         cl_chng  = None
         val_chng = None
         
-        if 'row' in kwargs:
+                            if 'row' in kwargs:
             rw_chng = kwargs['row']
             if rw_chng != None and rw_chng > self._rows: raise IndexError(f'Row number exceeded beyond matrix bounds')
         if 'col' in kwargs:
