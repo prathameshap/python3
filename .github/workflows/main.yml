@@ -10,23 +10,23 @@ on:
   workflow_dispatch:
 
 
-  jobs:    
-    super-linter:
-      name: Lint Code Base
-      runs-on: ubuntu-latest
-      steps:
-        - name: Checkout Code
-          uses: actions/checkout@v3
+jobs:    
+  super-linter:
+    name: Lint Code Base
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-        - name: Run Super Linter
-          uses: github/super-linter@v4
-          env:
-            VALIDATE_ALL_CODEBASE: false
-            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-            DEFAULT_BRANCH: main
-            LINTER_RULES_PATH: .github/linters/.super-linter.yml
-            FILTER_REGEX_EXCLUDE: '^(docs|vendor|third_party|node_modules|.github|.vscode|.idea|.venv|env|.env|__pycache__)/.*$'
-            FILTER_REGEX_INCLUDE: '.*\.(py|yml|yaml|json|md)$'
-            PYTHON_VERSION: '3.8'
-            ACTIONS_RUNNER_DEBUG: true
-            ACTIONS_STEP_DEBUG: true
+      - name: Run Super Linter
+        uses: github/super-linter@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DEFAULT_BRANCH: main
+          LINTER_RULES_PATH: .github/linters/.super-linter.yml
+          FILTER_REGEX_EXCLUDE: '^(docs|vendor|third_party|node_modules|.github|.vscode|.idea|.venv|env|.env|__pycache__)/.*$'
+          FILTER_REGEX_INCLUDE: '.*\.(py|yml|yaml|json|md)$'
+          PYTHON_VERSION: '3.8'
+          ACTIONS_RUNNER_DEBUG: true
+          ACTIONS_STEP_DEBUG: true
