@@ -31,21 +31,21 @@ jobs:
           VALIDATE_PYTHON_FLAKE8: true
           VALIDATE_PYTHON_PYLINT: true
           # JavaScript/TypeScript
-          # VALIDATE_JAVASCRIPT_ES: true
-          # VALIDATE_TYPESCRIPT_ES: true
+          VALIDATE_JAVASCRIPT_ES: false
+          VALIDATE_TYPESCRIPT_ES: false
           # Java
-          # VALIDATE_JAVA_CHECKSTYLE: true
+          VALIDATE_JAVA_CHECKSTYLE: false
           # C/C++
-          # VALIDATE_CPP_CLANG: true
+          VALIDATE_CPP_CLANG: false
           # Go
-          # VALIDATE_GO_GOLANGCI_LINT: true
+          VALIDATE_GO_GOLANGCI_LINT: false
           # Rust
-          # VALIDATE_RUST_CLIPPY: true
+          VALIDATE_RUST_CLIPPY: false
           # PHP
-          # VALIDATE_PHP_BUILTIN: true
+          VALIDATE_PHP_BUILTIN: false
           # Ruby
-          # VALIDATE_RUBY_RUBOCOP: true
+          VALIDATE_RUBY_RUBOCOP: false
           # Swift
-          # VALIDATE_SWIFT_SWIFTLINT: true
+          VALIDATE_SWIFT_SWIFTLINT: false
           # Kotlin
-          # VALIDATE_KOTLIN_KTLINT: true
+          VALIDATE_KOTLIN_KTLINT: false
