@@ -84,7 +84,7 @@ jobs:
                             }
                             ],
                             "temperature": 0.3,
-                            "max_completiontokens": 2500
+                            "max_completion_tokens": 2500
                             }')
 
                         #Extract the review from response
