@@ -1,3 +1,5 @@
+name: Super Linter code quality check
+
 
 on:
   push:

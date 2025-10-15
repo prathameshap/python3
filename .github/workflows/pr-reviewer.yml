@@ -4,7 +4,6 @@ on:
     pull_request:
         branches: 
             - '**'
-        types: [opened, synchronize, reopened]
 
 permissions:
     contents: read
@@ -22,7 +21,7 @@ jobs:
                 
             - name: Get PR diff and run AI review
               env:
-                OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY}}
+                OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
                 GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
                 PR_NUMBER: ${{ github.event.pull_request.number }}
                 PR_TITLE: ${{ github.event.pull_request.title }}
