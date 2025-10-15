@@ -1,13 +1,7 @@
-<<<<<<< HEAD
-name: Code Quality Check
-=======
-name: Python Code Quality Check
->>>>>>> fe9d142 (corrected pr-reviewer workflow syntax errors and added 'any branch' trigger file)
 
 on:
   push:
     branches:
-<<<<<<< HEAD
       - '**'
   pull_request:
     branches:
@@ -17,23 +11,11 @@ on:
 jobs:
   lint:
     name: Lint Changed Files
-=======
-      - '**'  # Triggers on push to any branch
-  pull_request:
-    branches:
-      - '**' # Triggers on pull request to any branch
-  workflow_dispatch:
-
-jobs:    
-  python-lint:
-    name: Python Linting and Syntax Check
->>>>>>> fe9d142 (corrected pr-reviewer workflow syntax errors and added 'any branch' trigger file)
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-<<<<<<< HEAD
       - name: Super-Linter
         uses: super-linter/super-linter@v7.1.0
         env:
@@ -66,62 +48,3 @@ jobs:
           # VALIDATE_SWIFT_SWIFTLINT: true
           # Kotlin
           # VALIDATE_KOTLIN_KTLINT: true
-=======
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.8'
-
-      - name: Install Python Linters
-        run: |
-          pip install flake8 pylint black isort mypy
-
-      - name: Run Python Syntax Check
-        run: |
-          echo "Checking Python syntax..."
-          python -m py_compile python_code/*.py
-          find python_code -name "*.py" -exec python -m py_compile {} \;
-
-      - name: Run Flake8 (Style Guide Enforcement)
-        run: |
-          echo "Running Flake8..."
-          flake8 python_code/ --max-line-length=88 --extend-ignore=E203,W503
-
-      - name: Run Pylint (Code Analysis)
-        run: |
-          echo "Running Pylint..."
-          pylint python_code/ --disable=C0114,C0116
-
-      - name: Run Black (Code Formatting Check)
-        run: |
-          echo "Checking code formatting with Black..."
-          black --check --diff python_code/
-
-      - name: Run isort (Import Sorting Check)
-        run: |
-          echo "Checking import sorting with isort..."
-          isort --check-only --diff python_code/
-
-  super-linter:
-    name: Comprehensive Code Linting
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Run Super Linter
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_ALL_CODEBASE: true
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BRANCH: main
-          FILTER_REGEX_EXCLUDE: '^(docs|vendor|third_party|node_modules|.github|.vscode|.idea|.venv|env|.env|__pycache__)/.*$'
-          FILTER_REGEX_INCLUDE: '.*\.(py|yml|yaml|json|md)$'
-          PYTHON_VERSION: '3.8'
-          VALIDATE_PYTHON_FLAKE8: true
-          VALIDATE_PYTHON_PYLINT: true
-          VALIDATE_PYTHON_BLACK: true
-          VALIDATE_PYTHON_ISORT: true
-          ACTIONS_RUNNER_DEBUG: true
-          ACTIONS_STEP_DEBUG: true
->>>>>>> fe9d142 (corrected pr-reviewer workflow syntax errors and added 'any branch' trigger file)
