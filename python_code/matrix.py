@@ -11,7 +11,7 @@
 
 class Matrix:
     
-    """Creates object of  class Matrix with number of rows and columns - if one argument is given, it creates a square matrix"""
+    """Creates object of  class Matrix with number of rows and columns"""
     def __init__(self, *args):
         
         numargs = len(args)
