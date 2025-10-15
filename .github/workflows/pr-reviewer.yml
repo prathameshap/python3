@@ -83,7 +83,7 @@ jobs:
                     -H "Content-Type: application/json" \
                     -H "Authorization: Bearer $OPENAI_API_KEY" \
                     -d '{
-                        "model": "gpt-4",
+                        "model": "gpt-4o",
                         "messages": [
                             {
                                 "role": "system",
@@ -94,6 +94,7 @@ jobs:
                                 "content": '"$PROMPT_ESCAPED"'
                             }
                             ],
+                            "temperature": 0.3,
                             "max_completion_tokens": 2500
                             }')
 
