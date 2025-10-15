@@ -19,6 +19,17 @@ jobs:
               with:
                 fetch-depth: 0
                 
+            - name: Debug API Setup
+              env:
+                OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+              run: |
+                echo "=== API Setup Debug ==="
+                echo "API Key exists: $([ -n "$OPENAI_API_KEY" ] && echo "Yes" || echo "No")"
+                echo "API Key length: ${#OPENAI_API_KEY}"
+                echo "Model: gpt-4"
+                echo "Max tokens: 2500"
+                echo "=== End Debug ==="
+
             - name: Get PR diff and run AI review
               env:
                 OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
@@ -72,7 +83,7 @@ jobs:
                     -H "Content-Type: application/json" \
                     -H "Authorization: Bearer $OPENAI_API_KEY" \
                     -d '{
-                        "model": "gpt-5",
+                        "model": "gpt-4",
                         "messages": [
                             {
                                 "role": "system",
@@ -86,15 +97,27 @@ jobs:
                             "max_completion_tokens": 2500
                             }')
 
-                        #Extract the review from response
-                        REVIEW=$(echo "$RESPONSE" | jq -r '.choices[0].message.content')
+                        #Debug API Response
+                        echo "=== API Response Debug ==="
+                        echo "Response length: ${#RESPONSE}"
+                        echo "Raw response:"
+                        echo "$RESPONSE"
+                        echo "=== End Raw Response ==="
 
-                        #Check for errors
-                        if [ "$REVIEW" == "null" ]; then
-                            ERROR=$(echo "$RESPONSE" | jq -r '.error.message')
-                            echo "API Error: $ERROR"
-                            REVIEW="AI Review failed: $ERROR"
+                        #Extract the review from response with better error handling
+                        REVIEW=$(echo "$RESPONSE" | jq -r '.choices[0].message.content // "No content found"')
+
+                        #Check for errors or empty response
+                        if [ "$REVIEW" == "null" ] || [ -z "$REVIEW" ] || [ "$REVIEW" == "No content found" ]; then
+                            ERROR=$(echo "$RESPONSE" | jq -r '.error.message // "Unknown error"')
+                            echo "API Error or empty response: $ERROR"
+                            echo "Full response: $RESPONSE"
+                            REVIEW="AI Review failed: Empty or invalid response from API. Error: $ERROR"
                         fi
+
+                        echo "Final review content:"
+                        echo "$REVIEW"
+                        echo "=== End Review Content ==="
 
                         #Create comment body
                         COMMENT_BODY="## AI Code Review
