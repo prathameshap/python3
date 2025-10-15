@@ -1,0 +1,64 @@
+name: PR Reviewer GPT (Python)
+
+on:
+  pull_request:
+    branches:
+      - '**'
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  ai-review:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      
+      - name: Get PR diff
+        id: pr-diff
+        run: |
+          # Fetch base branch
+          git fetch origin ${{ github.event.pull_request.base.ref }}
+          
+          # Get diff
+          DIFF=$(git diff origin/${{ github.event.pull_request.base.ref }}...HEAD)
+          
+          # Save to file
+          echo "$DIFF" > pr-diff.txt
+          
+          # Output PR details
+          echo "PR_NUMBER=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          echo "PR_TITLE=${{ github.event.pull_request.title }}" >> $GITHUB_OUTPUT
+          echo "PR_AUTHOR=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
+          
+          # Get PR description (handle multiline)
+          cat << 'EOF' > pr-description.txt
+          ${{ github.event.pull_request.body }}
+          EOF
+      
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install openai PyGithub
+      
+      - name: Run ChatGPT Review
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ steps.pr-diff.outputs.PR_NUMBER }}
+          PR_TITLE: ${{ steps.pr-diff.outputs.PR_TITLE }}
+          PR_AUTHOR: ${{ steps.pr-diff.outputs.PR_AUTHOR }}
+          REPO_OWNER: ${{ github.repository_owner }}
+          REPO_NAME: ${{ github.event.repository.name }}
+        run: python .github/scripts/review-pr.py
