@@ -46,8 +46,8 @@ def main():
         
         # Validate diff
         if not diff.strip():
-            post_comment('ℹ️ **No changes detected** in this pull request.')
-            print('ℹ️ No changes to review')
+            post_comment('**No changes detected** in this pull request.')
+            print('No changes to review')
             return
         
         # Check diff size
@@ -55,7 +55,7 @@ def main():
             handle_large_diff(len(diff))
             return
         
-        print(f'📊 Analyzing {len(diff):,} characters of code changes...')
+        print(f'Analyzing {len(diff):,} characters of code changes...')
         
         # Read PR description
         pr_description = read_pr_description()
@@ -66,11 +66,11 @@ def main():
         # Post review
         post_comment(review)
         
-        print('✅ ChatGPT Review posted successfully!')
+        print('ChatGPT Review posted successfully!')
         print(f'🔗 View PR: https://github.com/{REPO_OWNER}/{REPO_NAME}/pull/{PR_NUMBER}')
         
     except Exception as e:
-        print(f'❌ Error during PR review: {e}')
+        print(f'Error during PR review: {e}')
         handle_error(e)
         sys.exit(1)
 
@@ -113,7 +113,7 @@ def read_pr_description():
         with open('pr-description.txt', 'r', encoding='utf-8') as f:
             description = f.read().strip()
         if description and description != 'null':
-            print(f'✓ Read PR description ({len(description)} characters)')
+            print(f'Read PR description ({len(description)} characters)')
             return description
         return 'No description provided'
     except FileNotFoundError:
@@ -125,7 +125,7 @@ def read_pr_description():
 
 def get_ai_review(diff, pr_description):
     """Get AI code review from OpenAI"""
-    print(f'🧠 Requesting ChatGPT analysis using model: {GPT_MODEL}...')
+    print(f'Requesting ChatGPT analysis using model: {GPT_MODEL}...')
     
     try:
         client = OpenAI(api_key=OPENAI_API_KEY)
@@ -158,8 +158,8 @@ def get_ai_review(diff, pr_description):
         tokens_prompt = completion.usage.prompt_tokens
         tokens_completion = completion.usage.completion_tokens
         
-        print(f'💰 Tokens used: {tokens_used:,} (prompt: {tokens_prompt:,}, completion: {tokens_completion:,})')
-        print(f'✓ Received review ({len(review):,} characters)')
+        print(f'Tokens used: {tokens_used:,} (prompt: {tokens_prompt:,}, completion: {tokens_completion:,})')
+        print(f'Received review ({len(review):,} characters)')
         
         return review
         
@@ -179,7 +179,7 @@ Guidelines for your review:
 - Consider security, performance, maintainability, and best practices
 - Use emojis to make the review engaging and easy to scan
 - Reference specific files and line numbers when possible
-- Prioritize issues by severity (🔴 Critical, 🟡 Medium, 🟢 Minor)
+- Prioritize issues by severity (Critical, Medium, Minor)
 
 Your goal is to help improve code quality while being respectful and educational."""
 
@@ -199,35 +199,41 @@ def create_user_prompt(diff, pr_description):
 
 Provide a comprehensive code review in the following format:
 
-## 📋 Summary
+## Summary
 [Provide a 2-3 sentence overview of what this PR does and its purpose]
 
-## ✅ Strengths
+## Strengths
 [List 2-4 things that are done well - be specific and encouraging]
 
-## 🔍 Issues & Concerns
+## Issues & Concerns
 [List any problems found with severity indicators:
-- 🔴 Critical: Security issues, bugs, breaking changes
-- 🟡 Medium: Code quality, potential bugs, performance
-- 🟢 Minor: Style, naming, minor improvements
+- Critical: Security issues, bugs, breaking changes
+- Medium: Code quality, potential bugs, performance
+- Minor: Style, naming, minor improvements
 
 Include file names and approximate line numbers when possible]
 
-## 💡 Suggestions
+## Suggestions
 [Provide actionable improvement recommendations. Include code examples where helpful]
 
-## 🧪 Testing Recommendations
+## Testing Recommendations
 [Suggest specific test cases, edge cases, or testing strategies]
 
-## 📚 Documentation
+## Documentation
 [Identify any documentation needs, missing comments, or unclear code]
 
-## 🎯 Overall Assessment
+## Overall Assessment
 [Provide a clear verdict:
-- ✅ Approve with minor changes
-- ⚠️ Needs work before merging  
-- 🚫 Major concerns - significant changes required
+- Approve with minor changes
+- Needs work before merging  
+- Major concerns - significant changes required
 
 Include a brief summary of next steps]
 
 Be specific, reference actual code when possible, and provide actionable feedback that helps the author improve."""
+
+
+# ==================== Entry Point ====================
+
+if __name__ == '__main__':
+    main()
