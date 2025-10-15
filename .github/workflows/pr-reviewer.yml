@@ -79,11 +79,11 @@ jobs:
 
                 #Call OpenAI API
                 echo "Calling ChatGPT API...."
-                RESPONSE=$(curl -s https://api.openai.com/v1/responses \
+                RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
                     -H "Content-Type: application/json" \
                     -H "Authorization: Bearer $OPENAI_API_KEY" \
                     -d '{
-                        "model": "gpt-5-pro",
+                        "model": "gpt-4",
                         "messages": [
                             {
                                 "role": "system",
