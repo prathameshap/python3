@@ -2,6 +2,8 @@ name: Chat GPT PR Review
 
 on:
     pull_request:
+        branches: 
+            - '**'
         types: [opened, synchronize, reopened]
 
 permissions:
@@ -34,7 +36,7 @@ jobs:
                 git fetch origin ${{ github.event.pull_request.base.ref }}
                 DIFF=$(git diff origin/${{ github.event.pull_request.base.ref }}...HEAD)
 
-                if [-z "$DIFF" ]; then
+                if [ -z "$DIFF" ]; then
                     echo "No changes detected"
                     exit 0
                 fi
@@ -69,7 +71,7 @@ jobs:
                 echo "Calling ChatGPT API...."
                 RESPONSE=$(curl -s https://api.openai.com/v1/chat/completions \
                     -H "Content-Type: application/json" \
-                    -H "Authorization: Bearer $OPEN_API_KEY" \
+                    -H "Authorization: Bearer $OPENAI_API_KEY" \
                     -d '{
                         "model": "gpt-5",
                         "messages": [
@@ -93,7 +95,7 @@ jobs:
                         if [ "$REVIEW" == "null" ]; then
                             ERROR=$(echo "$RESPONSE" | jq -r '.error.message')
                             echo "API Error: $ERROR"
-                            REVIEW="AI Review failed: $ $ERROR"
+                            REVIEW="AI Review failed: $ERROR"
                         fi
 
                         #Create comment body
